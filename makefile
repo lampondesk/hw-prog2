@@ -1,26 +1,31 @@
 # the compiler: gcc for C program, define as g++ for C++
-  CC = g++
+CC = g++
 
-  # compiler flags:
-  #  -g    adds debugging information to the executable file
-  #  -Wall turns on most, but not all, compiler warnings
-  #  -Werror turns every warning into an
-  SOURCEDIR = source
-  OBJDIR = obj
-  INCDIR = include
-  CFLAGS = -I$(INCDIR) -g -Wall -Wpedantic -Werror
-  NAME = cKontakte.run
+# directories of various parts of the source code
+SOURCEDIR = source
+OBJDIR = obj
+INCDIR = include
 
-  _IDEPS = 
-  IDEPS = $(patsubst %,$(INCDIR)/%,$(_IDEPS))
-  _OBJ = main.o
-  OBJ = $(patsubst %,$(OBJDIR)/%,$(_OBJ))
+# compiler flags:
+#  -g    adds debugging information to the executable file
+#  -Wall turns on most, but not all, compiler warnings
+#  -Werror turns every warning into an
+CFLAGS = -I$(INCDIR) -g -Wall -Wpedantic -Werror
 
-  # the build target executable:
+# executable name
+NAME = cKontakte.run
 
+# dependencies
+_IDEPS = 
+IDEPS = $(patsubst %,$(INCDIR)/%,$(_IDEPS))
+_OBJ = main.o
+OBJ = $(patsubst %,$(OBJDIR)/%,$(_OBJ))
+
+# final compilation and cleanup:
   $(NAME) : $(OBJ)
 	$(CC) $^ -o $(NAME) $(CFLAGS)
 	rm -f $(OBJDIR)/*.o *~ core $(SOURCEDIR)/*~ $(SOURCEDIR)/core $(INCDIR)/*~
 
+# object file compilation:
   $(OBJDIR)/%.o: $(SOURCEDIR)/%.cpp $(IDEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
