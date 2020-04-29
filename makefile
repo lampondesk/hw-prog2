@@ -1,4 +1,4 @@
-# the compiler: gcc for C program, define as g++ for C++
+# the compiler
 CC = g++
 
 # directories of various parts of the source code
@@ -7,13 +7,14 @@ OBJDIR = obj
 INCDIR = include
 
 # compiler flags:
-#  -g    adds debugging information to the executable file
-#  -Wall turns on most, but not all, compiler warnings
-#  -Werror turns every warning into an
+#  -g			adds debugging information to the executable file
+#  -Wall		turns on most, but not all, compiler warnings
+#  -Wpedantic	turns on additional compiler warnings
+#  -Werror		turns every warning into an error
 CFLAGS = -I$(INCDIR) -g -Wall -Wpedantic -Werror
 
 # executable name
-NAME = cKontakte.run
+NAME = cppKontakte.run
 
 # dependencies
 _IDEPS = 
