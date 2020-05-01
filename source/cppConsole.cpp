@@ -2,5 +2,10 @@
 #include <cppConsole.hpp>
 
 void TerminalHandler::getCommand() {
-	std::getline(std::cin, prompt);
+	if (!std::cin.eof()) {
+		std::cout << std::flush;
+		std::getline(std::cin, prompt);
+	} else {
+		prompt = "-exit";
+	}
 }
