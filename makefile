@@ -17,7 +17,7 @@ CFLAGS = -I$(INCDIR) -g -Wall -Wpedantic -Werror
 NAME = cppKontakte.run
 
 # dependencies
-_IDEPS = 
+_IDEPS = cppStructures.hpp cppStatus.hpp exporter.hpp
 IDEPS = $(patsubst %,$(INCDIR)/%,$(_IDEPS))
 _OBJ = main.o
 OBJ = $(patsubst %,$(OBJDIR)/%,$(_OBJ))
