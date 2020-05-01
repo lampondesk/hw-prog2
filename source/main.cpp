@@ -9,6 +9,7 @@ int main() {
 
 	/*					Initialisation: objects					*/
 	TerminalHandler		console;
+	int					DEBUG = 0;
 
 
 	/*					Initialisation: main loop				*/
@@ -19,6 +20,8 @@ int main() {
 		console.getCommand();
 		if (console.lastCommand() == "-exit") {
 			console.setLoop(false);
+		} else if (console.lastCommand() == "-debug") {
+			DEBUG = !DEBUG;
 		}
 	}
 
