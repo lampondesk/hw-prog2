@@ -22,6 +22,7 @@ int main() {
 			console.setLoop(false);
 		} else if (console.lastCommand() == "-debug") {
 			DEBUG = !DEBUG;
+			std::cout << "[Debug] Toggled debug mode." << std::endl;
 		}
 	}
 
