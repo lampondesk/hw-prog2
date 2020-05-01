@@ -16,4 +16,4 @@ jobs:
     - name: Build project
       run: make
     - name: Run with no stdin
-      run: ./cppKontakte.run < /dev/null
+      run: timeout 90 ./cppKontakte.run < /dev/null
