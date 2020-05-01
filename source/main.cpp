@@ -1,8 +1,11 @@
 #include <iostream>
-#include <test.hpp>
+#include <locale>
+#include <cppStructures.hpp>
+#include <cppStatus.hpp>
+#include <exporter.hpp>
 
 int main() {
-    std::cout << "Hello World!" << std::endl;
-    /* Replace this code with something more serious eventually */
+    std::cout << "cppKontakte v.0.0.1" << std::endl;
+    setlocale(LC_ALL, "");
     return 0;
 }
