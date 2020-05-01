@@ -1,6 +1,9 @@
+#ifndef CSTRUCTURES_H
+#define CSTRUCTURES_H
+
 #include <iostream>
 
-class cContact {
+class cppContact {
     int            sqlId;
     std::string    firstName;
     std::string    lastName;
@@ -18,7 +21,7 @@ class cContact {
     int cValidateData(int type) { }
 
  public:
-    cContact(std::string stn = "", std::string lan = "", std::string tel = "", std::string em = "", std::string comm = "", std::string as = "", std::string an = "",
+    cppContact(std::string stn = "", std::string lan = "", std::string tel = "", std::string em = "", std::string comm = "", std::string as = "", std::string an = "",
     std::string to = "", std::string sta = "", std::string co = "", int po = 0) : firstName(stn), lastName(lan), tel(tel), email(em), comments(comm), addrStreet(as),
     addrNum(an), town(to), state(sta), country(co), postal(po) { }
 
@@ -27,12 +30,12 @@ class cContact {
     void displayData() { }
     bool matchData() { }
     char* prepareVCard() { }
-    ~cContact();
+    ~cppContact();
 };
 
 class contactStore {
-    cContact*    store;
-    size_t      quantity;
+    cppContact*		store;
+    size_t			quantity;
 
  public:
     contactStore();
@@ -45,3 +48,4 @@ class contactStore {
     ~contactStore();
 };
 
+#endif
