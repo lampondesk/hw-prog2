@@ -5,8 +5,8 @@ class TerminalHandler {
 	bool loop;
 public:
 	TerminalHandler(std::string p = "", bool b = true) : prompt(p), loop(b) {}
-	int getCommand();
+	void getCommand();
 	bool getLoop() { return loop; }
 	void setLoop(bool b) { loop = b; }
-	std::string lastCommand();
+	std::string lastCommand() { return prompt; }
 };
