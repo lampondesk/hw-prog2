@@ -11,7 +11,7 @@ INCDIR = include
 #  -Wall		turns on most, but not all, compiler warnings
 #  -Wpedantic	turns on additional compiler warnings
 #  -Werror		turns every warning into an error
-CFLAGS = -I$(INCDIR) -g -Wall -Wpedantic -Werror -DMEMTRACE
+CFLAGS = -I$(INCDIR) -g -Wall -Wpedantic -Werror -DMEMTRACE --std=c++11
 
 # executable name
 NAME = cppKontakte.run
