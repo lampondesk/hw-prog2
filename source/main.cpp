@@ -4,6 +4,7 @@
 #include <cppStatus.hpp>
 #include <cppExporter.hpp>
 #include <cppConsole.hpp>
+#include <memtrace.h>
 
 int main() {
 
