@@ -31,3 +31,8 @@
 *.out
 *.app
 *.run
+
+# Data files that the app can use
+*.csv
+*.dat
+*.vcf
