@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string.h>
 #include <cppImport.hpp>
+#include <cppStatus.hpp>
 #include <cppStructures.hpp>
 
 void ImportHandler::initFile(std::string in) {
@@ -10,33 +11,21 @@ void ImportHandler::initFile(std::string in) {
 }
 void ImportHandler::readContacts(contactStore& cs) {
 	std::string currentLine;
-	char* c_currentLine = const_cast<char*>(currentLine.c_str());
 	cppContact tempContact;
 	while(getline(inputFile, currentLine)) {
+		char* c_currentLine = const_cast<char*>(currentLine.c_str());
 		char* tokenisedString = strtok(c_currentLine, ",");
-		tempContact.setData(tokenisedString, "id");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "firstName");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "lastName");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "tel");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "email");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "comments");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "addrStreet");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "addrNum");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "town");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "state");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "country");
-		tokenisedString = strtok(NULL, ",");
-		tempContact.setData(tokenisedString, "postal");
+		int i = 0;
+		while(tokenisedString != NULL && i < 12) {
+			tempContact.setData(tokenisedString, i);
+			tokenisedString = strtok(NULL, ",");
+			i++;
+		}
+		if (i != 12) {
+			throw CPPKONTAKTE_FILE_CORRUPT;
+			cs.~contactStore();
+			break;
+		}
 		cs.addContact(tempContact);
 	}
 }
