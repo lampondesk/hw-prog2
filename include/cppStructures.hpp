@@ -5,7 +5,7 @@
 #include <cppStatus.hpp>
 
 class cppContact {
-    int            sqlId;
+    int            id;
     std::string    firstName;
     std::string    lastName;
     std::string    tel;
@@ -26,12 +26,10 @@ class cppContact {
     std::string to = "", std::string sta = "", std::string co = "", int po = 0) : firstName(stn), lastName(lan), tel(tel), email(em), comments(comm), addrStreet(as),
     addrNum(an), town(to), state(sta), country(co), postal(po) { }
 
-    int setData(std::string stn, std::string l, std::string te, std::string em, std::string comm, std::string as, std::string an,
-    std::string to, std::string sta, std::string co, int po) { return CPPKONTAKTE_STUB; }
+    int setData(std::string data, std::string field) { return CPPKONTAKTE_STUB; }
     void displayData() { }
     bool matchData() { return CPPKONTAKTE_STUB; }
     char* prepareVCard() { return (char*)CPPKONTAKTE_STUB; }
-    ~cppContact();
 };
 
 class contactStore {
@@ -39,14 +37,14 @@ class contactStore {
     size_t			quantity;
 
  public:
-    contactStore();
-    int addContact();
+    contactStore() :quantity(0) { };
+    void addContact(cppContact&);
     int delContact();
     int setContact();
     void displayAll();
     void search();
     int exportVCard();
-    ~contactStore();
+    ~contactStore() { delete[] store; };
 };
 
 #endif
