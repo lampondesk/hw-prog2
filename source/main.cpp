@@ -26,7 +26,12 @@ int main(int argc, char** argv) {
 	} else {
 		ifile.initFile("cppkontakte.dat.csv");
 	}
-	ifile.readContacts(memStorage);
+	try {
+		ifile.readContacts(memStorage);
+	} catch (int) {
+		std::cout << "A fájl sérült." << std::endl;
+		return CPPKONTAKTE_FILE_CORRUPT;
+	}
 
 	while(console.getLoop()) {
 		console.getCommand();
