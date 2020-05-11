@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 	try {
 		ifile.readContacts(memStorage);
 	} catch (int) {
-		std::cout << "A fájl sérült." << std::endl;
+		std::cout << "The file seems to be corrupt." << std::endl;
 		return CPPKONTAKTE_FILE_CORRUPT;
 	}
 
