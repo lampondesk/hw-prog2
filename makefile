@@ -19,9 +19,9 @@ CFLAGS = -I$(INCDIR) -g -DMEMTRACE --std=c++11
 NAME = cppKontakte.run
 
 # dependencies
-_IDEPS = cppStructures.hpp cppStatus.hpp cppExporter.hpp cppConsole.hpp
+_IDEPS = cppStructures.hpp cppStatus.hpp cppExporter.hpp cppConsole.hpp cppImport.hpp
 IDEPS = $(patsubst %,$(INCDIR)/%,$(_IDEPS))
-_OBJ = main.o cppConsole.o memtrace.o
+_OBJ = main.o cppConsole.o cppImport.o cppStructures.o memtrace.o
 OBJ = $(patsubst %,$(OBJDIR)/%,$(_OBJ))
 
 # final compilation and cleanup:
