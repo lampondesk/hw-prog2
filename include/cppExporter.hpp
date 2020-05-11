@@ -1,5 +1,5 @@
-#ifndef EXPORTER_H
-#define EXPORTER_H
+#ifndef EXPORT_H
+#define EXPORT_H
 
 #include <iostream>
 #include <fstream>
