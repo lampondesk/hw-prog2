@@ -27,7 +27,7 @@ OBJ = $(patsubst %,$(OBJDIR)/%,$(_OBJ))
 # final compilation and cleanup:
   $(NAME) : $(OBJ)
 	$(CC) $^ -o $(NAME) $(CFLAGS)
-	rm -f $(OBJDIR)/*.o *~ core $(SOURCEDIR)/*~ $(SOURCEDIR)/core $(INCDIR)/*~
+	#rm -f $(OBJDIR)/*.o *~ core $(SOURCEDIR)/*~ $(SOURCEDIR)/core $(INCDIR)/*~
 
 # object file compilation:
   $(OBJDIR)/%.o: $(SOURCEDIR)/%.cpp $(IDEPS)
