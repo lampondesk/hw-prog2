@@ -1,5 +1,6 @@
 #include <iostream>
 #include <locale>
+#include <string.h>
 #include <cppStructures.hpp>
 #include <cppStatus.hpp>
 #include <cppExporter.hpp>
