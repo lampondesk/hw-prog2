@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 
 
 	/*					Initialisation: main loop				*/
-    std::cout << "cppKontakte v.0.1.5" << std::endl;
+    std::cout << "cppKontakte v.0.2.25" << std::endl;
     setlocale(LC_ALL, "");
 
 	if (argc >= 3 && strcmp(argv[1], "-f") == 0) {
