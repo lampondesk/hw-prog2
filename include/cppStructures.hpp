@@ -23,15 +23,24 @@ class cppContact {
     int cValidateData(int type) { return CPPKONTAKTE_STUB; }
 
  public:
-    cppContact(std::string stn = "", std::string lan = "", std::string tel = "", std::string em = "", std::string comm = "", std::string as = "", std::string an = "",
+    /*cppContact(std::string stn = "", std::string lan = "", std::string tel = "", std::string em = "", std::string comm = "", std::string as = "", std::string an = "",
     std::string to = "", std::string sta = "", std::string co = "", int po = 0) : firstName(stn), lastName(lan), tel(tel), email(em), comments(comm), addrStreet(as),
-    addrNum(an), town(to), state(sta), country(co), postal(po) { }
+    addrNum(an), town(to), state(sta), country(co), postal(po) { }*/
+	cppContact() { };
 	cppContact(const cppContact& rhs);
-	const cppContact& operator=(const cppContact& rhs);
     void setData(const char* data, int field);
-	void getData(std::string& target, int field);
-	void getData(int& target, int field); //For: postal, id
-    void displayData();
+	int getId() const						{ return id; }
+	std::string getFirstName() const		{ return firstName; }
+	std::string getLastName() const			{ return lastName; }
+	std::string getTel() const				{ return tel; }
+	std::string	getEmail() const			{ return email; }
+	std::string getComments() const			{ return comments; }
+	std::string getAddrStreet() const		{ return addrStreet; }
+	std::string getAddrNum() const			{ return addrNum; }
+	std::string getTown() const				{ return town; }
+	std::string getState() const			{ return state; }
+	std::string getCountry() const			{ return country; }
+	int getPostal() const					{ return postal; }
     bool matchData() { return CPPKONTAKTE_STUB; }
 };
 
@@ -41,6 +50,9 @@ class contactStore {
 
  public:
     contactStore() :quantity(0) { };
+	cppContact& operator[](size_t);
+	const cppContact& operator[](size_t) const;
+	size_t getQuantity() { return quantity; }
     void addContact(cppContact&);
     int delContact();
     int setContact();
