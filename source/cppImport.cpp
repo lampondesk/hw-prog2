@@ -6,7 +6,7 @@
 #include <cppStructures.hpp>
 
 void ImportHandler::initFile(std::string in) {
-	inputFile.open(in, std::ios::out | std::ios::binary);
+	inputFile.open(in, std::ios::in | std::ios::out | std::ios::binary);
 	filePath = in;
 }
 void ImportHandler::readContacts(contactStore& cs) {
