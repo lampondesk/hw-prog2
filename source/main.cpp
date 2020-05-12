@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 
 
 	/*					Initialisation: main loop				*/
-    std::cout << "cppKontakte v.0.2.25" << std::endl;
+    std::cout << "cppKontakte v.0.3.3" << std::endl;
     setlocale(LC_ALL, "");
 
 	while(console.getLoop()) {
@@ -45,6 +45,14 @@ int main(int argc, char** argv) {
 				Exporter ocsv;
 				ocsv.initFile("oucsv.csv");
 				ocsv.outCsv(true, memStorage);
+			} else {
+				std::cout << "No file has been opened yet." << std::endl;
+			}
+		} else if (console.lastCommand() == "export vcard") {
+			if (ifile.isOpen()) {
+				Exporter ovcf;
+				ovcf.initFile("ouvcard.vcf");
+				ovcf.outVcard(memStorage);
 			} else {
 				std::cout << "No file has been opened yet." << std::endl;
 			}
