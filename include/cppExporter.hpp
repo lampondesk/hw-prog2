@@ -3,13 +3,15 @@
 
 #include <iostream>
 #include <fstream>
+#include <cppStructures.hpp>
 
 class Exporter {
-	std::ofstream output;
+	std::ofstream	outputFile;
+	std::string		filePath;
 public:
-	Exporter();
-	int outCsv();
-	int outVcard();
+	void initFile(std::string);
+	void outCsv(bool copy, contactStore& cs);
+	void outVcard();
 	~Exporter();
 };
 
