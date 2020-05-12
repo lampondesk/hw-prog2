@@ -9,15 +9,11 @@
 #include <memtrace.h>
 
 int main(int argc, char** argv) {
-
-	/*					Initialisation: objects					*/
 	TerminalHandler		console;
 	ImportHandler		ifile;
 	contactStore		memStorage;
 	bool				DEBUG = false;
 
-
-	/*					Initialisation: main loop				*/
     std::cout << "cppKontakte v.0.3.3" << std::endl;
     setlocale(LC_ALL, "");
 
@@ -58,6 +54,5 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
-
     return 0;
 }
