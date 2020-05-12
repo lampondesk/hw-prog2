@@ -59,7 +59,7 @@ class contactStore {
     void displayAll();
     void search();
     int exportVCard();
-    ~contactStore() { delete[] store; };
+    ~contactStore() { if(quantity > 0) delete[] store; };
 };
 
 #endif
