@@ -32,6 +32,8 @@ int main(int argc, char** argv) {
 		std::cout << "The file seems to be corrupt." << std::endl;
 		return CPPKONTAKTE_FILE_CORRUPT;
 	}
+	
+	std::string test(memStorage[0].getFirstName());
 
 	while(console.getLoop()) {
 		console.getCommand();
@@ -40,6 +42,10 @@ int main(int argc, char** argv) {
 		} else if (console.lastCommand() == "-debug") {
 			DEBUG = !DEBUG;
 			std::cout << "[Debug] Toggled debug mode." << std::endl;
+		} else if (console.lastCommand() == "export csv") {
+			Exporter ocsv;
+			ocsv.initFile("oucsv.csv");
+			ocsv.outCsv(true, memStorage);
 		}
 	}
 
