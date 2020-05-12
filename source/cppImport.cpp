@@ -8,6 +8,7 @@
 void ImportHandler::initFile(std::string in) {
 	inputFile.open(in, std::ios::in | std::ios::out | std::ios::binary);
 	filePath = in;
+	open = true;
 }
 void ImportHandler::readContacts(contactStore& cs) {
 	std::string currentLine;
