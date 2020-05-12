@@ -32,8 +32,6 @@ int main(int argc, char** argv) {
 		std::cout << "The file seems to be corrupt." << std::endl;
 		return CPPKONTAKTE_FILE_CORRUPT;
 	}
-	
-	std::string test(memStorage[0].getFirstName());
 
 	while(console.getLoop()) {
 		console.getCommand();
