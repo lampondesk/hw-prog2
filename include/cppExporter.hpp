@@ -11,7 +11,7 @@ class Exporter {
 public:
 	void initFile(std::string);
 	void outCsv(bool copy, contactStore& cs);
-	void outVcard();
+	void outVcard(contactStore& cs);
 	~Exporter();
 };
 
