@@ -13,7 +13,7 @@ INCDIR = include
 #  -Werror		turns every warning into an error
 #  --std=c++11	code must conform to the C++11 standard
 # -DMEMTRACE	use memtrace.h as a memory tracing platform
-CFLAGS = -I$(INCDIR) -g -DMEMTRACE --std=c++11
+CFLAGS = -Wall -Wpedantic -Werror -I$(INCDIR) -g -DMEMTRACE --std=c++11
 
 # executable name
 NAME = cppKontakte.run
