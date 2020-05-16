@@ -17,18 +17,16 @@ class cppContact {
     std::string		state;
     std::string		country;
     int				postal;
-
-
-    int sApplyToStorage(int s) { return CPPKONTAKTE_STUB; }
-    int cValidateData(int type) { return CPPKONTAKTE_STUB; }
+	bool			stringMatch(std::string, std::string);
+	bool			maskTest(const char*, const char*);
 
  public:
     /*cppContact(std::string stn = "", std::string lan = "", std::string tel = "", std::string em = "", std::string comm = "", std::string as = "", std::string an = "",
     std::string to = "", std::string sta = "", std::string co = "", int po = 0) : firstName(stn), lastName(lan), tel(tel), email(em), comments(comm), addrStreet(as),
     addrNum(an), town(to), state(sta), country(co), postal(po) { }*/
-	cppContact() { };
-	cppContact(const cppContact& rhs);
-    void setData(const char* data, int field);
+	cppContact() { }
+	cppContact(const cppContact&);
+    void setData(const char*, int);
 	int getId() const						{ return id; }
 	std::string getFirstName() const		{ return firstName; }
 	std::string getLastName() const			{ return lastName; }
@@ -41,7 +39,8 @@ class cppContact {
 	std::string getState() const			{ return state; }
 	std::string getCountry() const			{ return country; }
 	int getPostal() const					{ return postal; }
-    bool matchData() { return CPPKONTAKTE_STUB; }
+    bool matchData(std::string, std::string);
+	~cppContact() { }
 };
 
 class contactStore {
@@ -55,10 +54,8 @@ class contactStore {
 	size_t getQuantity() { return quantity; }
     void addContact(cppContact&);
     int delContact();
-    int setContact();
-    void displayAll();
+	int getLastId() { return store[quantity - 1].getId(); }
     void search();
-    int exportVCard();
     ~contactStore() { if(quantity > 0) delete[] store; };
 };
 
