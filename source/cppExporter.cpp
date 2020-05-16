@@ -4,10 +4,14 @@
 
 void Exporter::initFile(std::string in) {
 	outputFile.open(in, std::ios::out | std::ios::binary);
-	filePath = in;
+	if (outputFile.fail()) {
+		throw CPPKONTAKTE_FILE_IO_ERROR;
+	} else {
+		filePath = in;
+	}
 }
 
-void Exporter::outCsv(bool copy, contactStore& cs) {
+void Exporter::outCsv(bool copy, contactStore& cs) { //Watch for file errors FIXME ?
 	for (size_t i = 0; i < cs.getQuantity(); i++) {
 		outputFile << cs[i].getId() << ",";
 		outputFile << cs[i].getFirstName() << ",";
@@ -26,7 +30,7 @@ void Exporter::outCsv(bool copy, contactStore& cs) {
 }
 
 void Exporter::outVcard(contactStore& cs) {
-	for (size_t i = 0; i < cs.getQuantity(); i++) {
+	for (size_t i = 0; i < cs.getQuantity(); i++) { //Watch for file errors FIXME ?
 		outputFile << "BEGIN:VCARD" << std::endl;
 		outputFile << "VERSION:3.0" << std::endl;
 		outputFile << "N:" << cs[i].getLastName() << ";" << cs[i].getFirstName() << ";;;" << std::endl;
