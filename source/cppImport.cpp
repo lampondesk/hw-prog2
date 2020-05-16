@@ -6,12 +6,16 @@
 #include <cppStructures.hpp>
 
 void ImportHandler::initFile(std::string in) {
-	inputFile.open(in, std::ios::in | std::ios::out | std::ios::binary);
-	filePath = in;
-	open = true;
+	inputFile.open(in, std::ios::in | std::ios::out | std::ios::binary); 
+	if(inputFile.fail()) {
+		throw CPPKONTAKTE_FILE_IO_ERROR;
+	} else {
+		filePath = in;
+		open = true;
+	}
 }
 void ImportHandler::readContacts(contactStore& cs) {
-	std::string currentLine;
+	std::string currentLine; //Watch for bad_alloc FIXME ?
 	cppContact tempContact;
 	while(getline(inputFile, currentLine)) {
 		char* c_currentLine = const_cast<char*>(currentLine.c_str());
@@ -27,7 +31,12 @@ void ImportHandler::readContacts(contactStore& cs) {
 			cs.~contactStore();
 			break;
 		}
-		cs.addContact(tempContact);
+		try {
+			cs.addContact(tempContact);
+		} catch (int e) {
+			throw e;
+		}
+		
 	}
 }
 ImportHandler::~ImportHandler() {
