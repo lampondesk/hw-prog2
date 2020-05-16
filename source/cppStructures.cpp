@@ -19,7 +19,7 @@ cppContact::cppContact(const cppContact& rhs) {
 void cppContact::setData(const char* data, int field) {
 	std::string temp(data);
 	if (field == 0) {
-		this->id = 12; //Replace with atoi(data)
+		this->id = atoi(data);
 	} else if (field == 1) {
 		this->firstName = temp;
 	} else if (field == 2) {
@@ -41,9 +41,81 @@ void cppContact::setData(const char* data, int field) {
 	} else if (field == 10) {
 		this->country = temp;
 	} else if (field == 11) {
-		this->postal = 9; //Replace with atoi(data)
+		this->postal = atoi(data);
 	} else {
 		throw CPPKONTAKTE_ILLEGAL_DATA_REQUEST;
+	}
+}
+
+bool cppContact::matchData(std::string field, std::string soughtData) {
+	if (field == "id") {
+		return (this->id == atoi(soughtData.c_str()));
+	} else if (field == "firstname") {
+		return stringMatch(this->firstName, soughtData);
+	} else if (field == "lastname") {
+		return stringMatch(this->lastName, soughtData);
+	} else if (field == "phone") {
+		return stringMatch(this->tel, soughtData);
+	} else if (field == "email") {
+		return stringMatch(this->email, soughtData);
+	} else if (field == "comments") {
+		return stringMatch(this->comments, soughtData);
+	} else if (field == "street") {
+		return stringMatch(this->addrStreet, soughtData);
+	} else if (field == "number") {
+		return stringMatch(this->addrNum, soughtData);
+	} else if (field == "town") {
+		return stringMatch(this->town, soughtData);
+	} else if (field == "state") {
+		return stringMatch(this->state, soughtData);
+	} else if (field == "country") {
+		return stringMatch(this->country, soughtData);
+	} else if (field == "postal") {
+		return (this->postal == atoi(soughtData.c_str()));
+	} else {
+		throw CPPKONTAKTE_ILLEGAL_DATA_REQUEST;
+	}
+}
+
+bool cppContact::stringMatch(std::string str, std::string pattern) {
+	const char* cstr = const_cast<char*>(str.c_str());
+	const char* cptn = const_cast<char*>(pattern.c_str());
+	return maskTest(cptn, cstr);
+}
+/*	
+*	Function cppContact::maskTest is based on 7zip's
+*	EnhancedMaskTest function copyright 2020 Igor Pavlov.
+*	Part of the 7zip source code (/CPP/Common/Wildcard.cpp)
+*	Original software released under GNU LGPL. Please see
+*	https://www.gnu.org/licenses/lgpl-3.0.html.
+*	cppKontakte realeased under GPLv2.
+*/
+bool cppContact::maskTest(const char* mask, const char* name) {
+	for (;;)
+	{
+		wchar_t m = *mask;
+		wchar_t c = *name;
+		if (m == 0)
+			return (c == 0);
+		if (m == '*')
+		{
+			if (cppContact::maskTest(mask + 1, name))
+			return true;
+			if (c == 0)
+			return false;
+		}
+		else
+		{
+			if (m == '?')
+			{
+			if (c == 0)
+				return false;
+			}
+			else if (m != c)
+			return false;
+			mask++;
+		}
+		name++;
 	}
 }
 
@@ -52,20 +124,30 @@ void cppContact::setData(const char* data, int field) {
 */
 
 void contactStore::addContact(cppContact& contact) {
-	cppContact* temp = new cppContact[this->quantity + 1];
-	size_t i;
-	for (i = 0; i < quantity; i++) {
-		temp[i] = cppContact(this->store[i]);
+	try {
+		cppContact* temp = new cppContact[this->quantity + 1];
+		size_t i;
+		for (i = 0; i < quantity; i++) {
+			temp[i] = cppContact(this->store[i]);
+		}
+		temp[i] = contact;
+		if (quantity != 0)
+			delete[] this->store;
+		quantity++;
+		this->store = temp;
+	} catch (std::bad_alloc) {
+		throw CPPKONTAKTE_MEMORY_ALLOC_ERROR;
 	}
-	temp[i] = contact;
-	if (quantity != 0)
-		delete[] this->store;
-	quantity++;
-	this->store = temp;
 }
 cppContact& contactStore::operator[](size_t index) {
+	if (index > (quantity - 1) || index < 0) {
+		throw CPPKONTAKTE_ILLEGAL_DATA_REQUEST;
+	}
 	return this->store[index];
 }
 const cppContact& contactStore::operator[](size_t index) const {
+	if (index > (quantity - 1) || index < 0) {
+		throw CPPKONTAKTE_ILLEGAL_DATA_REQUEST;
+	}
 	return (const cppContact&)this->store[index];
 }
