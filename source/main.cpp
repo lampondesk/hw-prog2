@@ -14,19 +14,20 @@ int main(int argc, char** argv) {
 	bool				DEBUG = false;
 	std::string			currentfile;
 
+	setlocale(LC_ALL, "");
     std::cout << "cppKontakte v.0.7.1" << std::endl;
 	std::cout << "General commands are: " << std::endl;
-	std::cout << "add\t\t | Add a new person to the contact list." << std::endl;
+	std::cout << "new\t\t | Add a new person to the contact list." << std::endl;
 	std::cout << "edit\t\t | Edit an already existing person." << std::endl;
 	std::cout << "delete\t\t | Delete an already existing person." << std::endl;
 	std::cout << "search\t\t | Search for exact or similar data." << std::endl;
+	std::cout << "display all\t | Display every person." << std::endl;
 	std::cout << "File management commands are: " << std::endl;
 	std::cout << "open\t\t | Open the default file or the one supplied via the '-f' option." << std::endl;
 	std::cout << "export csv\t | Export the contact list into a stadard csv file." << std::endl;
 	std::cout << "export vcard\t | Export the contact list into a stadard VCard file." << std::endl;
 	std::cout << "-exit\t\t | Close the application." << std::endl;
 	std::cout << "Note: the file is saved automatically after each change." << std::endl << std::endl;
-    setlocale(LC_ALL, "");
 
 	while(console.getLoop()) {
 		console.getCommand();
@@ -56,7 +57,7 @@ int main(int argc, char** argv) {
 				}
 			}
 		} else if (console.lastCommand() == "export csv") {
-			if (ifile.isOpen()) {
+			if (ifile.isOpen() || memStorage.getQuantity() == 0) {
 				try {
 					Exporter ocsv;
 					ocsv.initFile("oucsv.csv");
@@ -68,10 +69,10 @@ int main(int argc, char** argv) {
 					}
 				}
 			} else {
-				std::cout << "No file has been opened yet." << std::endl;
+				std::cout << "No file has been opened yet or the contact list is empty." << std::endl;
 			}
 		} else if (console.lastCommand() == "export vcard") {
-			if (ifile.isOpen()) {
+			if (ifile.isOpen() || memStorage.getQuantity() == 0) {
 				try {
 					Exporter ovcf;
 					ovcf.initFile("ouvcard.vcf");
@@ -83,7 +84,7 @@ int main(int argc, char** argv) {
 					}
 				}
 			} else {
-				std::cout << "No file has been opened yet." << std::endl;
+				std::cout << "No file has been opened yet or the contact list is empty." << std::endl;
 			}
 		} else if (console.lastCommand() == "new") {
 			if(ifile.isOpen()) {
@@ -102,7 +103,7 @@ int main(int argc, char** argv) {
 				std::cout << "No file has been opened yet" << std::endl;
 			}
 		} else if (console.lastCommand() == "edit") {
-			if(ifile.isOpen()) {
+			if(ifile.isOpen() || memStorage.getQuantity() == 0) {
 				console.consoleEdit(memStorage);
 				try {
 					Exporter self;
@@ -115,10 +116,10 @@ int main(int argc, char** argv) {
 					}
 				}
 			} else {
-				std::cout << "No file has been opened yet" << std::endl;
+				std::cout << "No file has been opened yet or the contact list is empty." << std::endl;
 			}
 		} else if (console.lastCommand() == "delete") {
-			if(ifile.isOpen()) {
+			if(ifile.isOpen() || memStorage.getQuantity() == 0) {
 				console.consoleDelete(memStorage);
 				try {
 					Exporter self;
@@ -131,14 +132,22 @@ int main(int argc, char** argv) {
 					}
 				}
 			} else {
-				std::cout << "No file has been opened yet" << std::endl;
+				std::cout << "No file has been opened yet or the contact list is empty." << std::endl;
 			}
 		} else if (console.lastCommand() == "search") {
-			if(ifile.isOpen()) {
+			if(ifile.isOpen() || memStorage.getQuantity() == 0) {
 				console.consoleSearch(memStorage);
 			} else {
-				std::cout << "No file has been opened yet" << std::endl;
+				std::cout << "No file has been opened yet or the contact list is empty." << std::endl;
 			}
+		} else if (console.lastCommand() == "display all") {
+			if(ifile.isOpen() || memStorage.getQuantity() == 0) {
+				console.displayAll(memStorage);
+			} else {
+				std::cout << "No file has been opened yet or the contact list is empty." << std::endl;
+			}
+		} else if (console.lastCommand() == "") {
+			continue;
 		} else {
 			std::cout << "Unknown command." << std::endl;
 		}
