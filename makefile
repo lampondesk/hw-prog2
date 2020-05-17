@@ -14,6 +14,7 @@ INCDIR = include
 #  --std=c++11	code must conform to the C++11 standard
 # -DMEMTRACE	use memtrace.h as a memory tracing platform
 CFLAGS = -Wall -Wpedantic -Werror -I$(INCDIR) -g -DMEMTRACE --std=c++11
+# CFLAGS = -I$(INCDIR) -g -DMEMTRACE --std=c++11
 
 # executable name
 NAME = cppKontakte.run
