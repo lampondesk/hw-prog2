@@ -53,8 +53,9 @@ class contactStore {
 	const cppContact& operator[](size_t) const;
 	size_t getQuantity() { return quantity; }
     void addContact(cppContact&);
-    int delContact();
+    void delContact(std::string);
 	int getLastId() { return store[quantity - 1].getId(); }
+	cppContact& getElementById(std::string);
     void search();
     ~contactStore() { if(quantity > 0) delete[] store; };
 };
