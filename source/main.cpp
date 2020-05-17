@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
 	std::string			currentfile;
 
 	setlocale(LC_ALL, "");
-    std::cout << "cppKontakte v.0.7.1" << std::endl;
+    std::cout << "cppKontakte v.1.0.0" << std::endl;
 	std::cout << "General commands are: " << std::endl;
 	std::cout << "new\t\t | Add a new person to the contact list." << std::endl;
 	std::cout << "edit\t\t | Edit an already existing person." << std::endl;
