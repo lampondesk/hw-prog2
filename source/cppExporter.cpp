@@ -11,7 +11,7 @@ void Exporter::initFile(std::string in) {
 	}
 }
 
-void Exporter::outCsv(bool copy, contactStore& cs) { //Watch for file errors FIXME ?
+void Exporter::outCsv(bool copy, contactStore& cs) {
 	for (size_t i = 0; i < cs.getQuantity(); i++) {
 		outputFile << cs[i].getId() << ",";
 		outputFile << cs[i].getFirstName() << ",";
@@ -30,7 +30,7 @@ void Exporter::outCsv(bool copy, contactStore& cs) { //Watch for file errors FIX
 }
 
 void Exporter::outVcard(contactStore& cs) {
-	for (size_t i = 0; i < cs.getQuantity(); i++) { //Watch for file errors FIXME ?
+	for (size_t i = 0; i < cs.getQuantity(); i++) {
 		outputFile << "BEGIN:VCARD" << std::endl;
 		outputFile << "VERSION:3.0" << std::endl;
 		outputFile << "N:" << cs[i].getLastName() << ";" << cs[i].getFirstName() << ";;;" << std::endl;

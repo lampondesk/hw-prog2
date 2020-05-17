@@ -119,10 +119,6 @@ bool cppContact::maskTest(const char* mask, const char* name) {
 	}
 }
 
-/*
-*	CONTACTSTORE
-*/
-
 void contactStore::addContact(cppContact& contact) {
 	try {
 		cppContact* temp = new cppContact[this->quantity + 1];
@@ -196,6 +192,13 @@ cppContact& contactStore::getElementById(std::string str) {
 		throw CPPKONTAKTE_ID_NOT_FOUND;
 	}
 	return this->store[foundIndex];
+}
+int contactStore::getLastId() {
+	if (quantity > 0) {
+		return store[quantity -1].getId();
+	} else {
+		return 0;
+	}
 }
 cppContact* contactStore::search(std::string str, std::string pattern, int& resultno) {
 	cppContact* matchingContacts = NULL;

@@ -55,7 +55,7 @@ bool TerminalHandler::validatePostal(const char* str) {
 }
 
 std::string* TerminalHandler::askData(contactStore& cs) {
-	std::string* tempsa = new std::string[11]; //Watch for bad_alloc FIXME ?
+	std::string* tempsa = new std::string[11];
 	bool isvalid = true;
 	bool isfilled = true;
 	std::cout << "Please insert following data:" << std::endl;
@@ -118,7 +118,7 @@ std::string* TerminalHandler::askData(contactStore& cs) {
 		isvalid = validatePostal(tempsa[10].c_str());
 		if (!isvalid) {
 			std::cout << "The postal code you just entered has an invalid format." << std::endl;
-			std::cout << "Please make sure it contains at least one instance of the following characters: '@'." << std::endl;
+			std::cout << "Please make sure it contains numbers only." << std::endl;
 			isvalid = false;
 			std::cout << "Postal code: ";
 			std::getline(std::cin, tempsa[10]);
