@@ -199,7 +199,7 @@ cppContact& contactStore::getElementById(std::string str) {
 }
 cppContact* contactStore::search(std::string str, std::string pattern, int& resultno) {
 	cppContact* matchingContacts = NULL;
-	int mcSize = 0;
+	size_t mcSize = 0;
 	cppContact* temp;
 	for (size_t i = 0; i < this->quantity; i++) {
 		if (store[i].matchData(str, pattern)) {
