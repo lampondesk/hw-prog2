@@ -56,7 +56,7 @@ class contactStore {
     void delContact(std::string);
 	int getLastId() { return store[quantity - 1].getId(); }
 	cppContact& getElementById(std::string);
-    void search();
+    cppContact* search(std::string, std::string, int&);
     ~contactStore() { if(quantity > 0) delete[] store; };
 };
 
