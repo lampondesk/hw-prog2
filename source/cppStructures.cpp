@@ -141,13 +141,15 @@ void contactStore::addContact(cppContact& contact) {
 }
 void contactStore::delContact(std::string str) {
 	int id = atoi(str.c_str());
-	size_t index = -1;
+	bool found = false;
+	size_t index;
 	for (size_t i = 0; i < this->quantity; i++) {
 		if (this->store[i].getId() == id) {
+			found = true;
 			index = i;
 		}
 	}
-	if (index == -1) {
+	if (!found) {
 		throw CPPKONTAKTE_ID_NOT_FOUND;
 	}
 	try {
