@@ -231,7 +231,7 @@ void TerminalHandler::consoleSearch(contactStore& cs) {
 		if (resultno == 0) {
 			std::cout << "Nothing found." << std::endl;
 		} else {
-			for (size_t i = 0; i < resultno; i++) {
+			for (int i = 0; i < resultno; i++) {
 				display(foundContacts[i]);
 			}
 		}
