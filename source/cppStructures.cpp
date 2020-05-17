@@ -139,6 +139,33 @@ void contactStore::addContact(cppContact& contact) {
 		throw CPPKONTAKTE_MEMORY_ALLOC_ERROR;
 	}
 }
+void contactStore::delContact(std::string str) {
+	int id = atoi(str.c_str());
+	int index = -1;
+	for (size_t i = 0; i < this->quantity; i++) {
+		if (this->store[i].getId() == id) {
+			index = i;
+		}
+	}
+	if (index == -1) {
+		throw CPPKONTAKTE_ID_NOT_FOUND;
+	}
+	try {
+		size_t j = 0;
+		cppContact* temp = new cppContact[this->quantity - 1];
+		for (size_t i = 0; i < quantity; i++) {
+			if (i != index) {
+				temp[j] = cppContact(this->store[i]);
+				j++;
+			}
+		}
+		delete[] this->store;
+		quantity--;
+		this->store = temp;
+	} catch (std::bad_alloc) {
+		throw CPPKONTAKTE_MEMORY_ALLOC_ERROR;
+	}
+}
 cppContact& contactStore::operator[](size_t index) {
 	if (index > (quantity - 1) || index < 0) {
 		throw CPPKONTAKTE_ILLEGAL_DATA_REQUEST;
@@ -150,4 +177,21 @@ const cppContact& contactStore::operator[](size_t index) const {
 		throw CPPKONTAKTE_ILLEGAL_DATA_REQUEST;
 	}
 	return (const cppContact&)this->store[index];
+}
+
+cppContact& contactStore::getElementById(std::string str) {
+	int soughtId = atoi(str.c_str());
+	int foundIndex = 0;
+	bool found = false;
+	for (size_t i = 0; i < quantity; i++) {
+		if (soughtId == this->store[i].getId()) {
+			foundIndex = i;
+			found = true;
+			break;
+		}
+	}
+	if (!found) {
+		throw CPPKONTAKTE_ID_NOT_FOUND;
+	}
+	return this->store[foundIndex];
 }
