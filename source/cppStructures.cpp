@@ -141,7 +141,7 @@ void contactStore::addContact(cppContact& contact) {
 }
 void contactStore::delContact(std::string str) {
 	int id = atoi(str.c_str());
-	int index = -1;
+	size_t index = -1;
 	for (size_t i = 0; i < this->quantity; i++) {
 		if (this->store[i].getId() == id) {
 			index = i;
