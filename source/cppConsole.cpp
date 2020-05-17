@@ -11,6 +11,49 @@ void TerminalHandler::getCommand() {
 	}
 }
 
+bool TerminalHandler::validatePhone(const char* str) {
+	char c = str[0];
+	int i = 0;
+	while (c != '\0') {
+		c = str[i];
+		if (c != '*' && c != '#' && c != '+' && !isdigit(c) && c != '\0')
+			return false;
+		i++;
+	}
+	return true;
+}
+
+bool TerminalHandler::validateEmail(const char* str) {
+	char c = str[0];
+	int i = 0;
+	bool hasDot = false;
+	bool hasAt = false;
+	while (c != '\0') {
+		c = str[i];
+		if (c == '@' && !hasDot)
+			hasAt = true;
+		else if (c == '@' && hasDot)
+			return true;
+		else if (c == '.' && !hasAt)
+			hasDot = true;
+		else if (c == '.' && hasAt)
+			return true;
+		i++;
+	}
+	return false;
+}
+bool TerminalHandler::validatePostal(const char* str) {
+	char c = str[0];
+	int i = 0;
+	while (c != '\0') {
+		c = str[i];
+		if (!isdigit(c) && c != '\0')
+			return false;
+		i++;
+	}
+	return true;
+}
+
 std::string* TerminalHandler::askData(contactStore& cs) {
 	std::string* tempsa = new std::string[11]; //Watch for bad_alloc FIXME ?
 	bool isvalid = true;
@@ -37,32 +80,26 @@ std::string* TerminalHandler::askData(contactStore& cs) {
 	} while (!isfilled);
 	std::cout << "Phone number: ";
 	std::getline(std::cin, tempsa[2]);
-	while(isvalid == false) {	// Should be do-while FIXME
-		isvalid = true;
-		try {
-			validatePhone(tempsa[2]);
-		} catch (int) {
+	do {
+		isvalid = validatePhone(tempsa[2].c_str());
+		if (!isvalid) {
 			std::cout << "The phone number you just entered has an invalid format." << std::endl;
 			std::cout << "Please make sure it only contains numbers, and the characters '*' and '#'." << std::endl;
-			isvalid = false;
 			std::cout << "Phone number: ";
 			std::getline(std::cin, tempsa[2]);
 		}
-	}
+	} while(!isvalid);
 	std::cout << "E-mail: ";
 	std::getline(std::cin, tempsa[3]);
-	while(isvalid == false) {	// Should be do-while FIXME
-		isvalid = true;
-		try {
-			validateEmail(tempsa[3]);
-		} catch (int) {
+	do {
+		isvalid = validateEmail(tempsa[3].c_str());
+		if (!isvalid) {
 			std::cout << "The e-mail address you just entered has an invalid format." << std::endl;
 			std::cout << "Please make sure it contains at least one instance of the following characters: '@'." << std::endl;
-			isvalid = false;
 			std::cout << "E-mail: ";
 			std::getline(std::cin, tempsa[3]);
 		}
-	}
+	} while(!isvalid);
 	std::cout << "Comments: ";
 	std::getline(std::cin, tempsa[4]);
 	std::cout << "Street: ";
@@ -73,48 +110,27 @@ std::string* TerminalHandler::askData(contactStore& cs) {
 	std::getline(std::cin, tempsa[7]);
 	std::cout << "State: ";
 	std::getline(std::cin, tempsa[8]);
-	while(isvalid == false) {	// Should be do-while FIXME
-		isvalid = true;
-		try {
-			validateNoNum(tempsa[8]);
-		} catch (int) {
-			std::cout << "The state you just entered has an invalid format." << std::endl;
-			std::cout << "Please make sure it contains no numbers or special characters." << std::endl;
-			isvalid = false;
-			std::cout << "State: ";
-			std::getline(std::cin, tempsa[8]);
-		}
-	}
 	std::cout << "Country: ";
 	std::getline(std::cin, tempsa[9]);
-	while(isvalid == false) {	// Should be do-while FIXME
-		isvalid = true;
-		try {
-			validateNoNum(tempsa[9]);
-		} catch (int) {
-			std::cout << "The country you just entered has an invalid format." << std::endl;
-			std::cout << "Please make sure it contains no numbers or special characters." << std::endl;
-			isvalid = false;
-			std::cout << "Country: ";
-			std::getline(std::cin, tempsa[9]);
-		}
-	}
-	std::cout << "Postal number: ";
+	std::cout << "Postal code: ";
 	std::getline(std::cin, tempsa[10]);
-	while(isvalid == false) {			//ARE THERE POSTAL CODES WITH ALPHA OR SPEC. CHARACTERS? FIXME
-										// Should be do-while FIXME
-		isvalid = true;
-		try {
-			validateNoNum(tempsa[10]);
-		} catch (int) {
-			std::cout << "The postal number you just entered has an invalid format." << std::endl;
-			std::cout << "Please make sure it contains numbers only." << std::endl;
+	do {
+		isvalid = validatePostal(tempsa[10].c_str());
+		if (!isvalid) {
+			std::cout << "The postal code you just entered has an invalid format." << std::endl;
+			std::cout << "Please make sure it contains at least one instance of the following characters: '@'." << std::endl;
 			isvalid = false;
-			std::cout << "Postal number: ";
+			std::cout << "Postal code: ";
 			std::getline(std::cin, tempsa[10]);
 		}
-	}
+	} while(!isvalid);
 	return tempsa;
+}
+
+void TerminalHandler::display(cppContact& contact) {
+	std::cout << contact.getId() << " " << contact.getFirstName() << " " << contact.getLastName() << " " << contact.getTel()
+	<< " " << contact.getEmail() << " " << contact.getComments() << " " << contact.getAddrStreet() << " " << contact.getAddrNum()
+	<< " " << contact.getTown() << " " << contact.getState() << " " << contact.getCountry() << " " << contact.getPostal() << std::endl;
 }
 
 void TerminalHandler::consoleAdd(contactStore& cs) {
@@ -187,6 +203,7 @@ void TerminalHandler::consoleDelete(contactStore& cs) {
 void TerminalHandler::consoleSearch(contactStore& cs) {
 	std::string field;
 	std::string pattern;
+	int resultno = 0;
 	std::cout << "First, enter the data field you want to search in." << std::endl;
 	std::cout << "[id|firstname|lastname|phone|email|comments|number|street|town|state|country|postal]" << std::endl;
 	std::cout << "Then, enter the search pattern you want to use." << std::endl;
@@ -209,14 +226,27 @@ void TerminalHandler::consoleSearch(contactStore& cs) {
 			isfilled = false;
 		}
 	} while (!isfilled);
-	try {		//Matches single contact, replace w/ store-wide solution FIXME
-		if (cs[1].matchData(field, pattern)) {
-			std::cout << "Search yielded true" << std::endl;
+	try {
+		cppContact* foundContacts = cs.search(field, pattern, resultno);
+		if (resultno == 0) {
+			std::cout << "Nothing found." << std::endl;
 		} else {
-			std::cout << "Search yielded false" << std::endl;
+			for (size_t i = 0; i < resultno; i++) {
+				display(foundContacts[i]);
+			}
 		}
-	} catch (int) {
-		std::cout << "You have selected a data field that does not exist." << std::endl;
+		delete[] foundContacts;
+	} catch (int e) {
+		if (e == CPPKONTAKTE_ILLEGAL_DATA_REQUEST) {
+			std::cout << "You have selected a data field that does not exist." << std::endl;
+		} else if (e == CPPKONTAKTE_MEMORY_ALLOC_ERROR) {
+			std::cout << "Memory error. This means that either there is a bug\nin the software, or you are out of memory." << std::endl;
+		}
 	}
-	
+}
+
+void TerminalHandler::displayAll(contactStore& cs) {
+	for (size_t i = 0; i < cs.getQuantity(); i++) {
+		display(cs[i]);
+	}
 }
