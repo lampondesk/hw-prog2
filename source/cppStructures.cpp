@@ -197,3 +197,24 @@ cppContact& contactStore::getElementById(std::string str) {
 	}
 	return this->store[foundIndex];
 }
+cppContact* contactStore::search(std::string str, std::string pattern, int& resultno) {
+	cppContact* matchingContacts = NULL;
+	int mcSize = 0;
+	cppContact* temp;
+	for (size_t i = 0; i < this->quantity; i++) {
+		if (store[i].matchData(str, pattern)) {
+			temp = new cppContact[mcSize + 1];
+			size_t j;
+			for (j = 0; j < mcSize; j++) {
+				temp[j] = matchingContacts[j];
+			}
+			temp[j] = this->store[i];
+			if (quantity != 0)
+				delete[] matchingContacts;
+			matchingContacts = temp;
+			mcSize++;
+		}
+	}
+	resultno = mcSize;
+	return matchingContacts;
+}
