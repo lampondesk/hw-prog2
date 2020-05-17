@@ -11,8 +11,8 @@ void TerminalHandler::getCommand() {
 	}
 }
 
-void TerminalHandler::consoleAdd(contactStore& cs) {
-	std::string tempsa[11]; //Watch for bad_alloc FIXME ?
+std::string* TerminalHandler::askData(contactStore& cs) {
+	std::string* tempsa = new std::string[11]; //Watch for bad_alloc FIXME ?
 	bool isvalid = true;
 	bool isfilled = true;
 	std::cout << "Please insert following data:" << std::endl;
@@ -114,15 +114,73 @@ void TerminalHandler::consoleAdd(contactStore& cs) {
 			std::getline(std::cin, tempsa[10]);
 		}
 	}
+	return tempsa;
+}
+
+void TerminalHandler::consoleAdd(contactStore& cs) {
+	std::string* data = askData(cs);
 	cppContact temp;
 	temp.setData(std::to_string(cs.getLastId()+1).c_str(), 0);
 	for (size_t i = 0; i < 11; i++) {
-		temp.setData(tempsa[i].c_str(), i + 1);
+		temp.setData(data[i].c_str(), i + 1);
 	}
+	delete[] data;
 	try {
 		cs.addContact(temp);
 	} catch (int) {
 		std::cout << "Memory error. This means that either there is a bug\nin the software, or you are out of memory." << std::endl;
+	}
+}
+
+void TerminalHandler::consoleEdit(contactStore& cs) {
+	std::string* data;
+	std::string id;
+	bool isfilled = true;
+	std::cout << "Please select the ID of the person you want to edit:" << std::endl;
+	do {
+		isfilled = true;
+		std::cout << "(*) ID ";
+		std::getline(std::cin, id);
+		if (id == "") {
+			std::cout << "ID is a required field. Please do not leave it empty.";
+			isfilled = false;
+		}
+	} while (!isfilled);
+	try {
+		cppContact& actualContact = cs.getElementById(id);
+		data = askData(cs);
+		for (size_t i = 0; i < 11; i++) {
+			actualContact.setData(data[i].c_str(), i + 1);
+		}
+		delete[] data;
+	} catch (int e) {
+		if (e == CPPKONTAKTE_ID_NOT_FOUND) {
+			std::cout << "A contact with the given ID cannot be found." << std::endl;
+		}
+	}
+}
+
+void TerminalHandler::consoleDelete(contactStore& cs) {
+	std::string id;
+	bool isfilled = true;
+	std::cout << "Please select the ID of the person you want to edit:" << std::endl;
+	do {
+		isfilled = true;
+		std::cout << "(*) ID ";
+		std::getline(std::cin, id);
+		if (id == "") {
+			std::cout << "ID is a required field. Please do not leave it empty.";
+			isfilled = false;
+		}
+	} while (!isfilled);
+	try {
+		cs.delContact(id);
+	} catch (int e) {
+		if (e == CPPKONTAKTE_ID_NOT_FOUND) {
+			std::cout << "A person with the given ID cannot be found." << std::endl;
+		} else if (e == CPPKONTAKTE_MEMORY_ALLOC_ERROR) {
+			std::cout << "Memory error. This means that either there is a bug\nin the software, or you are out of memory." << std::endl;
+		}
 	}
 }
 
