@@ -23,6 +23,7 @@ class cppContact {
  public:
 	cppContact() { }
 	cppContact(const cppContact&);
+	cppContact& operator=(cppContact const&);
     void setData(const char*, int);
 	int getId() const						{ return id; }
 	std::string getFirstName() const		{ return firstName; }
@@ -53,7 +54,7 @@ class contactStore {
     void delContact(std::string);
 	int getLastId();
 	cppContact& getElementById(std::string);
-    cppContact* search(std::string, std::string, int&);
+    cppContact* search(std::string, std::string, size_t&);
     ~contactStore() { if(quantity > 0) delete[] store; };
 };
 

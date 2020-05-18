@@ -153,13 +153,12 @@ void contactStore::delContact(std::string str) {
 		cppContact* temp = new cppContact[this->quantity - 1];
 		for (size_t i = 0; i < quantity; i++) {
 			if (i != index) {
-				temp[j] = cppContact(this->store[i]);
-				j++;
+				temp[j++] = this->store[i];
 			}
 		}
 		delete[] this->store;
-		quantity--;
 		this->store = temp;
+		quantity--;
 	} catch (std::bad_alloc) {
 		throw CPPKONTAKTE_MEMORY_ALLOC_ERROR;
 	}
@@ -200,22 +199,31 @@ int contactStore::getLastId() {
 		return 0;
 	}
 }
-cppContact* contactStore::search(std::string str, std::string pattern, int& resultno) {
+cppContact* contactStore::search(std::string str, std::string pattern, size_t& resultno) {
 	cppContact* matchingContacts = NULL;
 	size_t mcSize = 0;
 	cppContact* temp;
 	for (size_t i = 0; i < this->quantity; i++) {
 		if (store[i].matchData(str, pattern)) {
-			temp = new cppContact[mcSize + 1];
-			size_t j;
-			for (j = 0; j < mcSize; j++) {
-				temp[j] = matchingContacts[j];
+			try {
+				temp = new cppContact[mcSize + 1];
+				size_t j = 0;
+				for (j = 0; j < mcSize; j++) {
+					temp[j] = matchingContacts[j];
+				}
+				temp[j] = this->store[i];
+				if (mcSize != 0)
+					delete[] matchingContacts;
+				mcSize++;
+				matchingContacts = new cppContact[mcSize];
+				for (j = 0; j < mcSize; j++) {
+					matchingContacts[j] = temp[j];
+				}
+				delete[] temp;
+			} catch (std::bad_alloc) {
+				throw CPPKONTAKTE_MEMORY_ALLOC_ERROR;
 			}
-			temp[j] = this->store[i];
-			if (quantity != 0)
-				delete[] matchingContacts;
-			matchingContacts = temp;
-			mcSize++;
+			
 		}
 	}
 	resultno = mcSize;

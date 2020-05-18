@@ -179,7 +179,7 @@ void TerminalHandler::consoleEdit(contactStore& cs) {
 void TerminalHandler::consoleDelete(contactStore& cs) {
 	std::string id;
 	bool isfilled = true;
-	std::cout << "Please select the ID of the person you want to edit:" << std::endl;
+	std::cout << "Please select the ID of the person you want to delete:" << std::endl;
 	do {
 		isfilled = true;
 		std::cout << "(*) ID ";
@@ -203,7 +203,7 @@ void TerminalHandler::consoleDelete(contactStore& cs) {
 void TerminalHandler::consoleSearch(contactStore& cs) {
 	std::string field;
 	std::string pattern;
-	int resultno = 0;
+	size_t resultno = 0;
 	std::cout << "First, enter the data field you want to search in." << std::endl;
 	std::cout << "[id|firstname|lastname|phone|email|comments|number|street|town|state|country|postal]" << std::endl;
 	std::cout << "Then, enter the search pattern you want to use." << std::endl;
