@@ -23,7 +23,23 @@ class cppContact {
  public:
 	cppContact() { }
 	cppContact(const cppContact&);
-	cppContact& operator=(cppContact const&);
+	cppContact &operator=(cppContact const& rhs) {
+		if(this != &rhs) {
+			this->firstName = rhs.firstName;
+			this->lastName = rhs.lastName;
+			this->tel = rhs.tel;
+			this->email = rhs.email;
+			this->comments = rhs.comments;
+			this->addrStreet = rhs.addrStreet;
+			this->addrNum = rhs.addrNum;
+			this->town = rhs.town;
+			this->state = rhs.state;
+			this->country = rhs.country;
+			this->postal = rhs.postal;
+			this->id = rhs.id;
+		}
+		return *(this);
+	}
     void setData(const char*, int);
 	int getId() const						{ return id; }
 	std::string getFirstName() const		{ return firstName; }
