@@ -62,7 +62,6 @@ int main(int argc, char** argv) {
 					Exporter ocsv;
 					ocsv.initFile("oucsv.csv");
 					ocsv.outCsv(true, memStorage);
-					ocsv.~Exporter();
 				} catch (int e) {
 					if (e == CPPKONTAKTE_FILE_IO_ERROR) {
 						std::cout << "Error: export failed: export target file cannot be opened.";
@@ -77,7 +76,6 @@ int main(int argc, char** argv) {
 					Exporter ovcf;
 					ovcf.initFile("ouvcard.vcf");
 					ovcf.outVcard(memStorage);
-					ovcf.~Exporter();
 				} catch (int e) {
 					if (e == CPPKONTAKTE_FILE_IO_ERROR) {
 						std::cout << "Error: export failed: export target file cannot be opened.";
@@ -93,7 +91,6 @@ int main(int argc, char** argv) {
 					Exporter self;
 					self.initFile(currentfile);
 					self.outCsv(1, memStorage);
-					self.~Exporter();
 				} catch (int e) {
 					if (e == CPPKONTAKTE_FILE_IO_ERROR) {
 						std::cout << "Error: file sync failed: file cannot be opened.";
@@ -109,7 +106,6 @@ int main(int argc, char** argv) {
 					Exporter self;
 					self.initFile(currentfile);
 					self.outCsv(1, memStorage);
-					self.~Exporter();
 				} catch (int e) {
 					if (e == CPPKONTAKTE_FILE_IO_ERROR) {
 						std::cout << "Error: file sync failed: file cannot be opened.";
@@ -125,7 +121,6 @@ int main(int argc, char** argv) {
 					Exporter self;
 					self.initFile(currentfile);
 					self.outCsv(1, memStorage);
-					self.~Exporter();
 				} catch (int e) {
 					if (e == CPPKONTAKTE_FILE_IO_ERROR) {
 						std::cout << "Error: file sync failed: file cannot be opened.";
