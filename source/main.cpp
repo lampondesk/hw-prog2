@@ -11,7 +11,6 @@ int main(int argc, char** argv) {
 	TerminalHandler		console;
 	ImportHandler		ifile;
 	contactStore		memStorage;
-	bool				DEBUG = false;
 	std::string			currentfile;
 
 	setlocale(LC_ALL, "");
@@ -33,9 +32,6 @@ int main(int argc, char** argv) {
 		console.getCommand();
 		if (console.lastCommand() == "-exit") {
 			console.setLoop(false);
-		} else if (console.lastCommand() == "-debug") {
-			DEBUG = !DEBUG;
-			std::cout << "[Debug] Toggled debug mode." << std::endl;
 		} else if (console.lastCommand() == "open") {
 			try {
 				if (argc >= 3 && std::string(argv[1]) == "-f") {
