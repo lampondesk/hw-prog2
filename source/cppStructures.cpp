@@ -51,36 +51,30 @@ bool cppContact::matchData(std::string field, std::string soughtData) {
 	if (field == "id") {
 		return (this->id == atoi(soughtData.c_str()));
 	} else if (field == "firstname") {
-		return stringMatch(this->firstName, soughtData);
+		return maskTest(this->firstName.c_str(), soughtData.c_str());
 	} else if (field == "lastname") {
-		return stringMatch(this->lastName, soughtData);
+		return maskTest(this->lastName.c_str(), soughtData.c_str());
 	} else if (field == "phone") {
-		return stringMatch(this->tel, soughtData);
+		return maskTest(this->tel.c_str(), soughtData.c_str());
 	} else if (field == "email") {
-		return stringMatch(this->email, soughtData);
+		return maskTest(this->email.c_str(), soughtData.c_str());
 	} else if (field == "comments") {
-		return stringMatch(this->comments, soughtData);
+		return maskTest(this->comments.c_str(), soughtData.c_str());
 	} else if (field == "street") {
-		return stringMatch(this->addrStreet, soughtData);
+		return maskTest(this->addrStreet.c_str(), soughtData.c_str());
 	} else if (field == "number") {
-		return stringMatch(this->addrNum, soughtData);
+		return maskTest(this->addrNum.c_str(), soughtData.c_str());
 	} else if (field == "town") {
-		return stringMatch(this->town, soughtData);
+		return maskTest(this->town.c_str(), soughtData.c_str());
 	} else if (field == "state") {
-		return stringMatch(this->state, soughtData);
+		return maskTest(this->state.c_str(), soughtData.c_str());
 	} else if (field == "country") {
-		return stringMatch(this->country, soughtData);
+		return maskTest(this->country.c_str(), soughtData.c_str());
 	} else if (field == "postal") {
 		return (this->postal == atoi(soughtData.c_str()));
 	} else {
 		throw CPPKONTAKTE_ILLEGAL_DATA_REQUEST;
 	}
-}
-
-bool cppContact::stringMatch(std::string str, std::string pattern) {
-	const char* cstr = const_cast<char*>(str.c_str());
-	const char* cptn = const_cast<char*>(pattern.c_str());
-	return maskTest(cptn, cstr);
 }
 /*	
 *	Function cppContact::maskTest is based on 7zip's
@@ -93,8 +87,8 @@ bool cppContact::stringMatch(std::string str, std::string pattern) {
 bool cppContact::maskTest(const char* mask, const char* name) {
 	for (;;)
 	{
-		wchar_t m = *mask;
-		wchar_t c = *name;
+		char m = *mask;
+		char c = *name;
 		if (m == 0)
 			return (c == 0);
 		if (m == '*')
