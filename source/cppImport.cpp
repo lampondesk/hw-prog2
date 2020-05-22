@@ -26,14 +26,17 @@ void ImportHandler::readContacts(contactStore& cs) {
 		char* c_currentLine = const_cast<char*>(currentLine.c_str());
 		char* tokenisedString = strtok(c_currentLine, ",");
 		int i = 0;
-		while(tokenisedString != NULL && i < 12) {
-			tempContact.setData(tokenisedString, i);
+		while(tokenisedString != NULL) {
+			try {
+				tempContact.setData(tokenisedString, i);
+			} catch (int) {
+				throw CPPKONTAKTE_FILE_CORRUPT;
+			}
 			tokenisedString = strtok(NULL, ",");
 			i++;
 		}
-		if (i != 12) {
+		if (i < 12) {
 			throw CPPKONTAKTE_FILE_CORRUPT;
-			cs.~contactStore();
 			break;
 		}
 		try {
