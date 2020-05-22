@@ -17,7 +17,6 @@ class cppContact {
     std::string		state;
     std::string		country;
     int				postal;
-	bool			stringMatch(std::string, std::string);
 	bool			maskTest(const char*, const char*);
 
  public:
