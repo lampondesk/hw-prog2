@@ -11,19 +11,31 @@ void TerminalHandler::getCommand() {
 	}
 }
 
-bool TerminalHandler::validatePhone(const char* str) {
+bool TerminalHandler::generalValidation(const char* str) {
 	char c = str[0];
 	int i = 0;
 	while (c != '\0') {
-		c = str[i];
-		if (c != '*' && c != '#' && c != '+' && !isdigit(c) && c != '\0')
+		if (c == ',')
 			return false;
 		i++;
+		c = str[i];
 	}
 	return true;
 }
 
-bool TerminalHandler::validateEmail(const char* str) {
+bool TerminalHandler::validatePhone(const char* str) {
+	char c = str[0];
+	int i = 0;
+	while (c != '\0') {
+		if (c != '*' && c != '#' && c != '+' && !isdigit(c))
+			return false;
+		i++;
+		c = str[i];
+	}
+	return true;
+}
+
+bool TerminalHandler::validateEmail(const char* str) { // Detect ',' FIXME
 	char c = str[0];
 	int i = 0;
 	bool hasDot = false;
@@ -46,10 +58,10 @@ bool TerminalHandler::validatePostal(const char* str) {
 	char c = str[0];
 	int i = 0;
 	while (c != '\0') {
-		c = str[i];
-		if (!isdigit(c) && c != '\0')
+		if (!isdigit(c))
 			return false;
 		i++;
+		c = str[i];
 	}
 	return true;
 }
@@ -62,22 +74,30 @@ std::string* TerminalHandler::askData(contactStore& cs) {
 	std::cout << "Fields marked with * are required fields." << std::endl;
 	do {
 		isfilled = true;
+		isvalid = true;
 		std::cout << "(*) First name: ";
 		std::getline(std::cin, tempsa[0]);
 		if (tempsa[0] == "") {
 			std::cout << "First name is a required field. Please do not leave it empty.";
 			isfilled = false;
+		} else if (!generalValidation(tempsa[0].c_str())) {
+			std::cout << "Your input contains the illegal character ','. Please remove it and try again." << std::endl;
+			isvalid = false;
 		}
-	} while (!isfilled);
+	} while (!isfilled || !isvalid);
 	do {
 		isfilled = true;
+		isvalid = true;
 		std::cout << "(*) Last name: ";
 		std::getline(std::cin, tempsa[1]);
 		if (tempsa[1] == "") {
 			std::cout << "Last name is a required field. Please do not leave it empty.";
 			isfilled = false;
+		} else if (!generalValidation(tempsa[1].c_str())) {
+			std::cout << "Your input contains the illegal character ','. Please remove it and try again." << std::endl;
+			isvalid = false;
 		}
-	} while (!isfilled);
+	} while (!isfilled || !isvalid);
 	std::cout << "Phone number: ";
 	std::getline(std::cin, tempsa[2]);
 	do {
@@ -102,16 +122,70 @@ std::string* TerminalHandler::askData(contactStore& cs) {
 	} while(!isvalid);
 	std::cout << "Comments: ";
 	std::getline(std::cin, tempsa[4]);
+	do {
+		isvalid = generalValidation(tempsa[4].c_str());
+		if (!isvalid) {
+			std::cout << "Your input contains the illegal character ','. Please remove it and try again." << std::endl;
+			isvalid = false;
+			std::cout << "Comments: ";
+			std::getline(std::cin, tempsa[4]);
+		}
+	} while(!isvalid);
 	std::cout << "Street: ";
 	std::getline(std::cin, tempsa[5]);
+	do {
+		isvalid = generalValidation(tempsa[5].c_str());
+		if (!isvalid) {
+			std::cout << "Your input contains the illegal character ','. Please remove it and try again." << std::endl;
+			isvalid = false;
+			std::cout << "Street: ";
+			std::getline(std::cin, tempsa[5]);
+		}
+	} while(!isvalid);
 	std::cout << "Number: ";
 	std::getline(std::cin, tempsa[6]);
+	do {
+		isvalid = generalValidation(tempsa[6].c_str());
+		if (!isvalid) {
+			std::cout << "Your input contains the illegal character ','. Please remove it and try again." << std::endl;
+			isvalid = false;
+			std::cout << "Number: ";
+			std::getline(std::cin, tempsa[6]);
+		}
+	} while(!isvalid);
 	std::cout << "Town: ";
 	std::getline(std::cin, tempsa[7]);
+	do {
+		isvalid = generalValidation(tempsa[7].c_str());
+		if (!isvalid) {
+			std::cout << "Your input contains the illegal character ','. Please remove it and try again." << std::endl;
+			isvalid = false;
+			std::cout << "Town: ";
+			std::getline(std::cin, tempsa[7]);
+		}
+	} while(!isvalid);
 	std::cout << "State: ";
 	std::getline(std::cin, tempsa[8]);
+	do {
+		isvalid = generalValidation(tempsa[8].c_str());
+		if (!isvalid) {
+			std::cout << "Your input contains the illegal character ','. Please remove it and try again." << std::endl;
+			isvalid = false;
+			std::cout << "State: ";
+			std::getline(std::cin, tempsa[8]);
+		}
+	} while(!isvalid);
 	std::cout << "Country: ";
 	std::getline(std::cin, tempsa[9]);
+	do {
+		isvalid = generalValidation(tempsa[9].c_str());
+		if (!isvalid) {
+			std::cout << "Your input contains the illegal character ','. Please remove it and try again." << std::endl;
+			isvalid = false;
+			std::cout << "Country: ";
+			std::getline(std::cin, tempsa[9]);
+		}
+	} while(!isvalid);
 	std::cout << "Postal code: ";
 	std::getline(std::cin, tempsa[10]);
 	do {
@@ -221,7 +295,7 @@ void TerminalHandler::consoleSearch(contactStore& cs) {
 		isfilled = true;
 		std::cout << "Pattern: ";
 		std::getline(std::cin, pattern);
-		if (field == "") {
+		if (pattern == "") {
 			std::cout << "You have to enter a search pattern." << std::endl;
 			isfilled = false;
 		}

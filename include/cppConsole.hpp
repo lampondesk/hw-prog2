@@ -8,6 +8,7 @@ class TerminalHandler {
 	bool validateEmail(const char*);
 	bool validatePhone(const char*);
 	bool validatePostal(const char*);
+	bool generalValidation(const char*);
 	void display(cppContact&);
 public:
 	TerminalHandler(bool b = true) : loop(b) {}
