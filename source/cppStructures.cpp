@@ -94,9 +94,9 @@ bool cppContact::maskTest(const char* mask, const char* name) {
 		if (m == '*')
 		{
 			if (cppContact::maskTest(mask + 1, name))
-			return true;
+				return true;
 			if (c == 0)
-			return false;
+				return false;
 		}
 		else
 		{
@@ -106,7 +106,7 @@ bool cppContact::maskTest(const char* mask, const char* name) {
 				return false;
 			}
 			else if (m != c)
-			return false;
+				return false;
 			mask++;
 		}
 		name++;
