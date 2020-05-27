@@ -35,7 +35,7 @@ bool TerminalHandler::validatePhone(const char* str) {
 	return true;
 }
 
-bool TerminalHandler::validateEmail(const char* str) { // Detect ',' FIXME
+bool TerminalHandler::validateEmail(const char* str) {
 	char c = str[0];
 	int i = 0;
 	bool hasDot = false;
